@@ -134,29 +134,47 @@ def delete_note(notes):
 # Функция обновления поля заметки, заданного пользователем
 def update_note(note):
     # Выбор критерия для обновления
-    update_choice = input("Какой пункт хотите изменить?\n1. Пользователь"
+    update_choice = input("\nКакой пункт хотите изменить?\n1. Пользователь"
                           "\n2. Заголовок"
                           "\n3. Описание"
                           "\n4. Статус"
                           "\n5. Дата создания"
                           "\n6. Дата дедлайна\n\tВведите цифру: ")
-    if update_choice == '6': #
-        issue_date = user_date("Введите новую дату создания заметки в формате DD-MM-YYYY: ")
+    if update_choice == '6': # Обновление даты дедлайна
+        issue_date = user_date("Введите новую дату истечения заметки (дедлайн) в формате DD-MM-YYYY: ")
+        if not issue_date:
+            print("\tДата дедлайна осталась прежней")
+            return
         note.update({'issue_date': issue_date})
-    elif update_choice == '5': #
-        created_date = user_date("Введите новую дату истечения заметки (дедлайн) в формате DD-MM-YYYY: ")
+    elif update_choice == '5': # Обновление даты создания
+        created_date = user_date("Введите новую дату создания заметки в формате DD-MM-YYYY: ")
+        if not created_date:
+            print("\tДата создания осталась прежней")
+            return
         note.update({'created_date': created_date})
-    elif update_choice == '4': #
+    elif update_choice == '4': # Обновление статуса
         status = status_create()
+        if not status:
+            print("\tСтатус остался прежним")
+            return
         note.update({'status': status.upper()})
-    elif update_choice == '3': #
+    elif update_choice == '3': # Обновление описания
         content = input("Введите новое описание заметки: ")
+        if not content:
+            print("\tОписание осталось прежним")
+            return
         note.update({'content': content.capitalize()})
-    elif update_choice == '2': #
+    elif update_choice == '2': # Обновление заголовков
         title = add_titles()
+        if not title:
+            print("\tЗаголовок остался прежним")
+            return
         note.update({'title': title.title()})
-    elif update_choice == '1': #
+    elif update_choice == '1': # Обновление имени пользователя
         username = input("Введите имя пользователя заметки: ")
+        if not username:
+            print("\tИмя пользователя осталось прежним")
+            return
         note.update({'username': username.title()})
     else:
         print("Данной команды не существует, выберите из предложенного списка")
